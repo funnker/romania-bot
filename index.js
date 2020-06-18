@@ -32,7 +32,7 @@ client.on('ready',() =>{
 
  client.on('ready', () => {
    let myGuild = client.guilds.cache.get('701409424446849104');
-   var onlineCount = myGuild.members.cache.filter(m => m.presence.status === 'online',m => m.roles.cache.get('719306842630520912'));
+   var onlineCount = myGuild.members.cache.filter(m => m.presence.status === 'online',m => m.roles.cache.get('719306842630520912').members.size);
    let roleID = '719306842630520912';
    let staffCount = myGuild.roles.cache.get(roleID).members.size;
    let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');

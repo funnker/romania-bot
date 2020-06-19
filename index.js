@@ -2,8 +2,37 @@ const Discord = require('discord.js');
 const {prefix, token } = require('./config.json');
 const client = new Discord.Client();
 
+const fs = require('fs');
+
+client.commands = new Discord.Collection;
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+for(const file of commandFiles)
+{
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.name, command);
+}
+
+
 client.once('ready', () => {
     console.log('ONLINE')
+})
+
+var ondutyStaff = 0;
+
+client.on('message', message => {
+  let args = message.content.substring(prefix.lenght).split(" ");
+
+  switch(args[0])
+  {
+    case "onduty":
+      client.commands.get('onduty').execute(message, args);
+    break;
+
+    case "offduty":
+      client.commands.get("offduty").execute(message, args);
+    break;
+  }
 })
 
 client.on('ready',() =>{
@@ -29,7 +58,7 @@ client.on('ready',() =>{
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
  })
-
+/*
  client.on('ready', () => {
 
    let myGuild = client.guilds.cache.get('701409424446849104');
@@ -45,7 +74,14 @@ client.on('ready',() =>{
   const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
   let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
   StaffCountChannel.setName('Active Staff: ' + onlineCount)
+}) */
+
+client.on('ready', () => {
+  let guild = client.guilds.cache.get('701409424446849104');
+  let StaffCountChannel = guild.channels.cache.get('723269866077028483');
+  StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
 })
+
 
 client.login(token);
 

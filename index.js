@@ -34,7 +34,7 @@ client.on('ready',() =>{
 
    let myGuild = client.guilds.cache.get('701409424446849104');
    let roleID = '719306842630520912';
-   const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID).foreach(m => m.presence.status === 'online')).size;
+   const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
    let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
    StaffCountChannel.setName('Active Staff: ' + onlineCount)
  })
@@ -42,7 +42,7 @@ client.on('ready',() =>{
  client.on('userUpdate', () => {
   let myGuild = client.guilds.cache.get('701409424446849104');
   let roleID = '719306842630520912';
-  const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID).foreach(m => m.presence.status === 'online')).size;
+  const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
   let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
   StaffCountChannel.setName('Active Staff: ' + onlineCount)
 })

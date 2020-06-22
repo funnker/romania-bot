@@ -1,12 +1,12 @@
+const fs = require('fs');
 const Discord = require('discord.js');
 const {prefix, token } = require('./config.json');
 const client = new Discord.Client();
 
-const fs = require('fs');
-
-client.commands = new Discord.Collection;
+client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
 for(const file of commandFiles)
 {
   const command = require(`./commands/${file}`);
@@ -16,6 +16,14 @@ for(const file of commandFiles)
 
 client.once('ready', () => {
     console.log('ONLINE')
+
+    let myGuild = client.guilds.cache.get('701409424446849104');
+    let memberCount =  myGuild.memberCount;
+    let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
+    MemberCountChannel.setName('Members: ' + memberCount)
+
+    let StaffCountChannel = guild.channels.cache.get('723269866077028483');
+    StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
 })
 
 var ondutyStaff = 0;
@@ -34,14 +42,6 @@ client.on('message', message => {
     break;
   }
 })
-
-client.on('ready',() =>{
-   
-    let myGuild = client.guilds.cache.get('701409424446849104');
-    let memberCount =  myGuild.memberCount;
-    let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
-    MemberCountChannel.setName('Members: ' + memberCount)
- })
  
  client.on('guildMemberAdd', member=>{
   let myGuild = client.guilds.cache.get('701409424446849104');
@@ -75,12 +75,6 @@ client.on('ready',() =>{
   let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
   StaffCountChannel.setName('Active Staff: ' + onlineCount)
 }) */
-
-client.on('ready', () => {
-  let guild = client.guilds.cache.get('701409424446849104');
-  let StaffCountChannel = guild.channels.cache.get('723269866077028483');
-  StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
-})
 
 
 client.login(token);

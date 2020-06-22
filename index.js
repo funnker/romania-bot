@@ -34,6 +34,18 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
+  if(command === 'onduty')
+  {
+    ondutyStaff++;
+    message.channel.send("Esti la datorie");
+  }
+
+  if(command === 'offduty')
+  {
+    ondutyStaff--;
+    message.channel.send("Nu mai esti la datorie");
+  }
+
   switch(args)
   {
     case "onduty":

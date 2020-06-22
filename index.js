@@ -29,9 +29,12 @@ client.once('ready', () => {
 var ondutyStaff = 0;
 
 client.on('message', message => {
-  let args = message.content.substring(prefix.lenght).split(" ");
+  if(!message.content.startsWith(prefix) || message.author.bot) return;
 
-  switch(args[0])
+  const args = message.content.slice(prefix.length).split(/ +/);
+  const command = args.shift().toLowerCase();
+
+  switch(args)
   {
     case "onduty":
       client.commands.get('onduty').execute(message, args);

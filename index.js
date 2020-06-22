@@ -14,7 +14,7 @@ for(const file of commandFiles)
 }
 
 
-client.once('ready', () => {
+client.on('ready', () => {
     console.log('ONLINE')
 
     let myGuild = client.guilds.cache.get('701409424446849104');
@@ -24,8 +24,10 @@ client.once('ready', () => {
 
     let StaffCountChannel = guild.channels.cache.get('723269866077028483');
     StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
+    
 })
 
+var DutyRole= member.guild.roles.cache.find(role => role.name === "Onduty");
 var ondutyStaff = 0;
 
 client.on('message', message => {
@@ -34,17 +36,24 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if(command === 'onduty')
+  if(message.member.roles.find(r => r.name === "Staff"))
   {
-    ondutyStaff++;
-    message.channel.send("Esti la datorie");
+    if(command === 'onduty' && !message.member.roles.find(r => r.name === "Onduty") )
+    {
+      ondutyStaff++;
+      message.member.addRole(DutyRole);
+      message.channel.send("Esti la datorie");
+    }
+
+  if(command === 'offduty' && message.member.roles.find(r => r.name === "Onduty"))
+    {
+      ondutyStaff--;
+      message.member.roles.remove("Onduty")
+      message.channel.send("Nu mai esti la datorie");      
+    }
   }
 
-  if(command === 'offduty')
-  {
-    ondutyStaff--;
-    message.channel.send("Nu mai esti la datorie");
-  }
+  
 
   switch(args)
   {

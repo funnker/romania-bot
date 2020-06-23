@@ -39,14 +39,14 @@ client.on('message', message => {
 
   if(message.member.roles.has(719306842630520912))
   {
-    if(command === 'onduty' && !message.member.roles.cache.has(724607373380943936))
+    if(command === 'onduty' && !message.member.roles.has(724607373380943936))
     {
       ondutyStaff++;
       message.member.addRole(DutyRole);
       message.channel.send("Esti la datorie");
     }
 
-  if(command === 'offduty' && message.member.roles.cache.has(724607373380943936))
+  if(command === 'offduty' && message.member.roles.has(724607373380943936))
     {
       ondutyStaff--;
       message.member.roles.remove("Onduty")

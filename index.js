@@ -14,7 +14,6 @@ for(const file of commandFiles)
   client.commands.set(command.name, command);
 }
 
-
 client.on('ready', () => {
     console.log('ONLINE')
 
@@ -23,7 +22,7 @@ client.on('ready', () => {
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
     let DutyRole = '724607373380943936';
-    let ondutystaff = guild.roles.get(DutyRole).members.size;
+    let ondutyStaff = myGuild.members.cache.filter(m => m.roles.cache.has(DutyRole));
     let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
     StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
     
@@ -41,25 +40,12 @@ client.on('message', message => {
       message.channel.send("Esti la datorie");
     }
 
-  if(command === 'offduty' && message.member.roles.has(724607373380943936))
+  if(command === 'offduty' && message.member.roles.has(724607373380943936)) 
     {
-      ondutyStaff--;
       message.member.roles.remove("Onduty")
       message.channel.send("Nu mai esti la datorie");      
     }
 
-  
- /*
-  switch(args)
-  {
-    case "onduty":
-      client.commands.get('onduty').execute(message, args);
-    break;
-
-    case "offduty":
-      client.commands.get("offduty").execute(message, args);
-    break;
-  } */
 })
  
  client.on('guildMemberAdd', member=>{

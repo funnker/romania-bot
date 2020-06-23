@@ -35,8 +35,6 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if(message.member.roles.has(719306842630520912))
-  {
     if(command === 'onduty' && !message.member.roles.has(724607373380943936))
     {
       message.member.addRole(DutyRole);
@@ -49,7 +47,6 @@ client.on('message', message => {
       message.member.roles.remove("Onduty")
       message.channel.send("Nu mai esti la datorie");      
     }
-  }
 
   
  /*

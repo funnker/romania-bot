@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const {prefix, token } = require('./config.json');
+const { runInNewContext } = require('vm');
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
@@ -27,7 +28,7 @@ client.on('ready', () => {
     
 })
 
-var DutyRole= member.guild.roles.cache.find(role => role.name === "Onduty");
+let DutyRole = '724607373380943936'
 var ondutyStaff = 0;
 
 client.on('message', message => {
@@ -36,16 +37,16 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if(message.member.roles.find(r => r.name === "Staff"))
+  if(message.member.roles.has(719306842630520912))
   {
-    if(command === 'onduty' && !message.member.roles.find(r => r.name === "Onduty") )
+    if(command === 'onduty' && !message.member.roles.has(724607373380943936))
     {
       ondutyStaff++;
       message.member.addRole(DutyRole);
       message.channel.send("Esti la datorie");
     }
 
-  if(command === 'offduty' && message.member.roles.find(r => r.name === "Onduty"))
+  if(command === 'offduty' && message.member.roles.has(724607373380943936))
     {
       ondutyStaff--;
       message.member.roles.remove("Onduty")
@@ -54,7 +55,7 @@ client.on('message', message => {
   }
 
   
-
+ /*
   switch(args)
   {
     case "onduty":
@@ -64,7 +65,7 @@ client.on('message', message => {
     case "offduty":
       client.commands.get("offduty").execute(message, args);
     break;
-  }
+  } */
 })
  
  client.on('guildMemberAdd', member=>{

@@ -23,12 +23,12 @@ client.on('ready', () => {
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
 
-    let StaffCountChannel = guild.channels.cache.get('723269866077028483');
+    let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
     StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
     
 })
 
-let DutyRole = '724607373380943936'
+let DutyRole = '724607373380943936';
 var ondutyStaff = 0;
 
 client.on('message', message => {
@@ -39,14 +39,14 @@ client.on('message', message => {
 
   if(message.member.roles.has(719306842630520912))
   {
-    if(command === 'onduty' && !message.member.roles.has(724607373380943936))
+    if(command === 'onduty' && !message.member.roles.cache.has(724607373380943936))
     {
       ondutyStaff++;
       message.member.addRole(DutyRole);
       message.channel.send("Esti la datorie");
     }
 
-  if(command === 'offduty' && message.member.roles.has(724607373380943936))
+  if(command === 'offduty' && message.member.roles.cache.has(724607373380943936))
     {
       ondutyStaff--;
       message.member.roles.remove("Onduty")

@@ -22,14 +22,12 @@ client.on('ready', () => {
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
-
+    let DutyRole = '724607373380943936';
+    let ondutystaff = guild.roles.get(DutyRole).members.size;
     let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
     StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
     
 })
-
-let DutyRole = '724607373380943936';
-var ondutyStaff = 0;
 
 client.on('message', message => {
   if(!message.content.startsWith(prefix) || message.author.bot) return;
@@ -41,7 +39,6 @@ client.on('message', message => {
   {
     if(command === 'onduty' && !message.member.roles.has(724607373380943936))
     {
-      ondutyStaff++;
       message.member.addRole(DutyRole);
       message.channel.send("Esti la datorie");
     }

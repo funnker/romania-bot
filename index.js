@@ -15,6 +15,7 @@ for(const file of commandFiles)
 }
 
 var ondutyStaff = 0;
+let DutyRole = '724607373380943936';
 
 client.on('ready', () => {
     console.log('ONLINE')
@@ -23,7 +24,7 @@ client.on('ready', () => {
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
-    let DutyRole = '724607373380943936';
+    
     let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
     StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
     
@@ -46,7 +47,7 @@ client.on('message', message => {
   if(command === 'offduty') 
     {
       ondutyStaff--;
-      message.member.roles.remove("Onduty")
+      message.member.roles.remove(DutyRole);
       message.channel.send("Nu mai esti la datorie");      
     }
 

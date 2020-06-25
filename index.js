@@ -24,13 +24,13 @@ client.on('ready', () => {
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
-    
-    let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
-    StaffCountChannel.setName('Active Staff: ' + ondutyStaff)
-    
+
+    client.user.setActivity("with depression", {
+      type: "GAME"
+    });
 })
 
-
+/*
 client.on('message', message => {
   if(!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -51,7 +51,7 @@ client.on('message', message => {
       message.channel.send("Nu mai esti la datorie");      
     }
 
-})
+}) */
  
  client.on('guildMemberAdd', member=>{
   let myGuild = client.guilds.cache.get('701409424446849104');
@@ -68,7 +68,8 @@ client.on('message', message => {
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
  })
-/*
+
+
  client.on('ready', () => {
 
    let myGuild = client.guilds.cache.get('701409424446849104');
@@ -78,13 +79,13 @@ client.on('message', message => {
    StaffCountChannel.setName('Active Staff: ' + onlineCount)
  })
 
- client.on('userUpdate', () => {
+ client.on('guildMemberUpdate', (oldMember, newMember) => {
   let myGuild = client.guilds.cache.get('701409424446849104');
   let roleID = '719306842630520912';
   const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
   let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
   StaffCountChannel.setName('Active Staff: ' + onlineCount)
-}) */
+})
 
 
 client.login(token);

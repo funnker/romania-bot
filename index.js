@@ -98,7 +98,7 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 client.on('messageReactionAdd', async (reaction, user) => {
   if(user.bot)
     return;
-  if(message.channels.id !== '724675482779385988')
+  if(message.channels.id !== '703980745190015016')
     return;
   switch(reaction.id)
   {

@@ -96,14 +96,32 @@ client.on('presenceUpdate', (oldMember, newMember) => {
 })
 
 client.on('messageReactionAdd', async (reaction, user) => {
-  if (reaction.id === "728643273190670418") {
-    // Define the emoji user add
-    let role = '728255332719263825';
-    if (message.channel.id === '724675482779385988') {
-        message.member.addRole(role.id);
-    }
+  if(user.bot)
+    return;
+  if(message.channels.id !== '724675482779385988')
+    return;
+  switch(reaction.id)
+  {
+    case "728250528559267922":
+      member.addRole("728255332719263825");
+    case "728250528559267922":
+      member.addRole("728255307431804938");
   }
 });
+/*
+client.on('messageReactionRemove', async (reaction, user) => {
+  if(user.bot)
+    return;
+  if(message.channels.id !== '724675482779385988')
+    return;
+    switch(reaction.id)
+    {
+      case "728250528559267922":
+        member.removeRole("728255332719263825");
+      case "728250528559267922":
+        member.removeRole("728255307431804938");
+    }  
+}) */
 
 
 client.login(token);

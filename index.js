@@ -99,8 +99,8 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (reaction.id === "728643273190670418") {
     // Define the emoji user add
     let role = '728255332719263825';
-    if (message.channel.id === '703980745190015016') {
-        message.member.addRole(role);
+    if (message.channel.id === '724675482779385988') {
+        message.member.addRole(role.id);
     }
   }
 });

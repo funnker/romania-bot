@@ -95,6 +95,16 @@ client.on('presenceUpdate', (oldMember, newMember) => {
   StaffCountChannel.setName('Active Staff: ' + onlineCount)
 })
 
+client.on('messageReactionAdd', async (reaction, user) => {
+  if (reaction.id === "728643273190670418") {
+    // Define the emoji user add
+    let role = message.guild.roles.cache.find(role => role.name === 'International');
+    if (message.channel.id === '703980745190015016') {
+        message.member.addRole(role.id);
+    }
+  }
+});
+
 
 client.login(token);
 

@@ -146,9 +146,9 @@ client.on('messageReactionRemove', async (reaction, user) => {
           // And now we can update our output with a bit more information
           // We will also run a check to make sure the log we got was for the same author's message
           if (target.id === message.author.id) {
-            client.channels.get(`729442853238866010`).send(`A message by ${message.author.tag} was deleted by ${executor.tag}.`);
+            client.channels.cache.get(`729442853238866010`).send(`A message by ${message.author.tag} was deleted by ${executor.tag}.`);
           }	else {
-            client.channels.get(`729442853238866010`).send(`A message by ${message.author.tag} was deleted, but we don't know by who.`);
+            client.channels.cache.get(`729442853238866010`).send(`A message by ${message.author.tag} was deleted, but we don't know by who.`);
           }
         });
 

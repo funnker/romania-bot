@@ -202,6 +202,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
 
         client.on('message', message => {
           if(message.content === "tu esti")
+          for(let i = 1; i <= 2; i++)
             message.channel.send("tu esti");
         })
 

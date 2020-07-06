@@ -30,28 +30,23 @@ client.on('ready', () => {
     });
 })
 
-/*
 client.on('message', message => {
   if(!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-    if(command === 'onduty')
+    if(command === 'tu')
     {
-      ondutyStaff++;
-      message.member.addRole(DutyRole);
-      message.channel.send("Esti la datorie");
+      message.channel.send("Tu esti")
     }
 
-  if(command === 'offduty') 
+  if(command === 'nebun') 
     {
-      ondutyStaff--;
-      message.member.roles.remove(DutyRole);
-      message.channel.send("Nu mai esti la datorie");      
+      message.channel.send("Esti prea nebun");      
     }
 
-}) */
+}) 
  
  client.on('guildMemberAdd', member=>{
   let myGuild = client.guilds.cache.get('701409424446849104');
@@ -199,10 +194,6 @@ client.on('messageReactionRemove', async (reaction, user) => {
             console.log(`${user.tag} got hit with the swift hammer of justice in the guild ${guild.name}, audit log fetch was inconclusive.`);
           }
         });
-
-        client.on('message', message => {
-          
-        })
 
 client.login(token);
 

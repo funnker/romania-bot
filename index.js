@@ -38,7 +38,10 @@ client.on('message', message => {
 
     if(command === "tu")
     {
-      message.channel.send("Tu esti")
+      if(message.author.id === '450300560168714243')
+        message.channel.send("Nu esti tu")
+      else
+        message.channel.send("Nu esti tu")
     }
 
   if(command === "nebun") 

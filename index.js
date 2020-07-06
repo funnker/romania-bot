@@ -36,12 +36,12 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-    if(command === 'tu')
+    if(command === "tu")
     {
       message.channel.send("Tu esti")
     }
 
-  if(command === 'nebun') 
+  if(command === "nebun") 
     {
       message.channel.send("Esti prea nebun");      
     }

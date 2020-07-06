@@ -200,5 +200,10 @@ client.on('messageReactionRemove', async (reaction, user) => {
           }
         });
 
+        client.on('message', message => {
+          if(message.content === "tu esti")
+            message.channel.send("tu esti");
+        })
+
 client.login(token);
 

@@ -39,7 +39,7 @@ client.on('message', message => {
     if(command === "tu")
     {
       if(message.author.id === '450300560168714243')
-        message.channel.send("Nu esti tu")
+        message.channel.send("Tu esti")
       else
         message.channel.send("Nu esti tu")
     }

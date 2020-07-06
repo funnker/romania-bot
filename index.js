@@ -26,10 +26,6 @@ client.on('ready', () => {
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
-
-    client.user.setActivity("with depression", {
-      type: "GAME"
-    });
 })
 
 client.on('message', message => {

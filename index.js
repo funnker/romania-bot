@@ -2,6 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const {prefix, token } = require('./config.json');
 const { runInNewContext } = require('vm');
+const { config } = require('process');
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
@@ -19,6 +20,7 @@ let DutyRole = '724607373380943936';
 
 client.on('ready', () => {
     console.log('ONLINE')
+    client.user.setActivity('Trei Culori', { type: 'LISTENING' });
 
     let myGuild = client.guilds.cache.get('701409424446849104');
     let memberCount =  myGuild.memberCount;

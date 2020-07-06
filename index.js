@@ -48,6 +48,10 @@ client.on('message', message => {
     {
       message.channel.send("Esti prea nebun");      
     }
+  if(command === "noi")
+  {
+    message.channel.send("https://www.youtube.com/watch?v=ZnO-GMw7dfI")
+  }
 
 }) 
  

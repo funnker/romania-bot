@@ -136,7 +136,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
           const deletionLog = fetchedLogs.entries.first();
         
           // Let's perform a sanity check here and make sure we got *something*
-          if (!deletionLog) return console.log(`A message by ${message.author.tag} was deleted, but no relevant audit logs were found.`);
+          if (!deletionLog) return console.log(`Un mesaj al user-ului ${message.author.tag} a fost sters insa nu am gasit log-ul potrivit.`);
         
           // We now grab the user object of the person who deleted the message
           // Let us also grab the target of this action to double check things
@@ -146,9 +146,9 @@ client.on('messageReactionRemove', async (reaction, user) => {
           // And now we can update our output with a bit more information
           // We will also run a check to make sure the log we got was for the same author's message
           if (target.id === message.author.id) {
-            client.channels.cache.get(`729442853238866010`).send(`A message by ${message.author.tag} was deleted by ${executor.tag}.`);
+            client.channels.cache.get(`729442853238866010`).send(`Un mesaj al user-ului ${message.author.tag} a fost sters de ${executor.tag}.`);
           }	else {
-            client.channels.cache.get(`729442853238866010`).send(`A message by ${message.author.tag} was deleted, but we don't know by who.`);
+            client.channels.cache.get(`729442853238866010`).send(`Un mesaj al user-ului ${message.author.tag} a fost sters insa nu stiu de cine.`);
           }
         });
 
@@ -161,7 +161,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
           const kickLog = fetchedLogs.entries.first();
         
           // Let's perform a sanity check here and make sure we got *something*
-          if (!kickLog) return console.log(`${member.user.tag} left the guild, most likely of their own will.`);
+          if (!kickLog) return console.log(`${member.user.tag} a iesit din de pe server.`);
         
           // We now grab the user object of the person who kicked our member
           // Let us also grab the target of this action to double check things
@@ -170,9 +170,9 @@ client.on('messageReactionRemove', async (reaction, user) => {
           // And now we can update our output with a bit more information
           // We will also run a check to make sure the log we got was for the same kicked member
           if (target.id === member.id) {
-            console.log(`${member.user.tag} left the guild; kicked by ${executor.tag}?`);
+            client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a primit kick de la ${executor.tag}?`);
           } else {
-            console.log(`${member.user.tag} left the guild, audit log fetch was inconclusive.`);
+            client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a primit kick.`);
           }
         });
 
@@ -185,7 +185,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
           const banLog = fetchedLogs.entries.first();
         
           // Let's perform a sanity check here and make sure we got *something*
-          if (!banLog) return console.log(`${user.tag} was banned from ${guild.name} but no audit log could be found.`);
+          if (!banLog) return console.log(`${user.tag} a fost banat, dar nu au fost gasite log-urile.`);
         
           // We now grab the user object of the person who banned the user
           // Let us also grab the target of this action to double check things
@@ -194,11 +194,35 @@ client.on('messageReactionRemove', async (reaction, user) => {
           // And now we can update our output with a bit more information
           // We will also run a check to make sure the log we got was for the same kicked member
           if (target.id === user.id) {
-            console.log(`${user.tag} got hit with the swift hammer of justice in the guild ${guild.name}, wielded by the mighty ${executor.tag}`);
+            client.channels.cache.get(`729442853238866010`).send(`${user.tag} a primit ban de la ${executor.tag}.`);
           } else {
-            console.log(`${user.tag} got hit with the swift hammer of justice in the guild ${guild.name}, audit log fetch was inconclusive.`);
+            client.channels.cache.get(`729442853238866010`).send(`${user.tag} a primit ban.`);
           }
         });
+
+        client.on('inviteCreate', async invite => {
+          const fetchedLogs = await guild.fetchAuditLogs({
+            limit: 1,
+            type: 'INVITE_CREATE',
+          });
+          const inviteLog = fetchedLogs.entries.first();
+
+          if(!inviteLog) return console.log(`${user.tag} a creat un invite link.`);
+        })
+
+        client.on('roleCreate', async role => {
+          const fetchedLogs = await guild.fetchAuditLogs({
+            limit: 1,
+            type: 'ROLE_CREATE',
+          });
+
+          const roleLog = fetchedLogs.entries.first();
+
+          if(!roleLog) return console.log(`${user.tag} a creat un rol.`);
+
+          const { executor, target } = roleLog;
+
+        })
 
 client.login(token);
 

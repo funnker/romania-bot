@@ -50,6 +50,13 @@ client.on('message', message => {
   {
     message.channel.send("https://www.youtube.com/watch?v=ZnO-GMw7dfI")
   }
+  if(message.content === "Im")
+  {
+    var message = message.content.toString();
+    message = message.replace("Im", " ");
+    message.channel.send("Hello " + meessage + "I'm Dad");
+  }
+    
 
 }) 
  

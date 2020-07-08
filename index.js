@@ -52,12 +52,11 @@ client.on('message', message => {
   }
   if(message.content.startsWith === "Im")
   {
-    var message = message.content.toString();
-    message = message.replace("Im", " ");
-    message.channel.send("Hello" + message + "I'm Dad");
+    var messages = message.content.toString;
+    const args = messages.trim().split(' ');
+    args.shift();
+    message.channel.send("Hello " + args.join(' ') + "I'm Dad");
   }
-    
-
 }) 
  
  client.on('guildMemberAdd', member=>{

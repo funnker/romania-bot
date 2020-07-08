@@ -54,7 +54,7 @@ client.on('message', message => {
   {
     var message = message.content.toString();
     message = message.replace("Im", " ");
-    message.channel.send("Hello " + meessage + "I'm Dad");
+    message.channel.send("Hello" + message + "I'm Dad");
   }
     
 

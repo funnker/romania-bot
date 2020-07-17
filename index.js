@@ -21,14 +21,14 @@ let DutyRole = '724607373380943936';
 const HelperEmbed = new Discord.MessageEmbed()
 .setColor('#0099ff')
 .setTitle('Helper Application')
-.setThumbnail('https://imgur.com/18d7499c-30c8-4eea-8632-e81f8e04e095')
+.setThumbnail('https://i.imgur.com/VVp3czl.png')
 .setURL('https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform')
 .addField('Apply here: https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform', 'Status: OPEN')
 
 const PREmbed = new Discord.MessageEmbed()
 .setColor('#0099ff')
 .setTitle('PR Application')
-.setThumbnail('https://imgur.com/18d7499c-30c8-4eea-8632-e81f8e04e095')
+.setThumbnail('https://i.imgur.com/VVp3czl.png')
 .setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
 .addField('Apply here: https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform', 'Status: OPEN')
 

@@ -19,22 +19,20 @@ var ondutyStaff = 0;
 let DutyRole = '724607373380943936';
 
 const HelperEmbed = new Discord.MessageEmbed()
-	.setColor('10181046')
+	.setColor('#0099ff')
 	.setTitle('Helper Application')
-	.setURL('https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform')
 	.setDescription('Apply here: shorturl.at/qrzC3')
   .addField('Status: OPEN', true)
   
 const PREmbed = new Discord.MessageEmbed()
-	.setColor('3447003')
+	.setColor('#0099ff')
 	.setTitle('Helper Application')
-	.setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
 	.setDescription('Apply here: shorturl.at/rsHS2')
 	.addField('Status: OPEN', true)
 
 client.on('ready', () => {
     console.log('ONLINE')
-    client.user.setActivity('Trei Culori', { type: 'LISTENING' });
+    client.user.setActivity('RomaniaBot v1.3', { type: 'PLAYING' });
 
     let myGuild = client.guilds.cache.get('701409424446849104');
     let memberCount =  myGuild.memberCount;
@@ -194,7 +192,7 @@ client.on('messageReactionRemove', async (reaction, user) => {
           if (target.id === member.id) {
             client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a primit kick de la ${executor.tag}?`);
           } else {
-            client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a primit kick.`);
+            client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a iesit de pe server.`);
           }
         });
 

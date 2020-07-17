@@ -30,19 +30,6 @@ client.on('ready', () => {
 })
 
 client.on('message', message => {
-
-  const HelperEmbed = new Discord.MessageEmbed()
-	.setColor('#0099ff')
-	.setTitle('Helper Application')
-	.setDescription('Apply here: shorturl.at/qrzC3')
-  .addField('Status: OPEN', true)
-  
-const PREmbed = new Discord.MessageEmbed()
-	.setColor('#0099ff')
-	.setTitle('Helper Application')
-	.setDescription('Apply here: shorturl.at/rsHS2')
-  .addField('Status: OPEN', true)
-  
   if(!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).split(/ +/);

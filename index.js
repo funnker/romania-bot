@@ -18,6 +18,19 @@ for(const file of commandFiles)
 var ondutyStaff = 0;
 let DutyRole = '724607373380943936';
 
+const HelperEmbed = new Discord.MessageEmbed()
+.setColor('#0099ff')
+.setTitle('Helper Application')
+.setDescription('Apply here: shorturl.at/qrzC3')
+.addField('Status: OPEN', true)
+
+const PREmbed = new Discord.MessageEmbed()
+.setColor('#0099ff')
+.setTitle('Helper Application')
+.setDescription('Apply here: shorturl.at/rsHS2')
+.addField('Status: OPEN', true)
+
+
 
 client.on('ready', () => {
     console.log('ONLINE')

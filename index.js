@@ -22,15 +22,13 @@ const HelperEmbed = new Discord.MessageEmbed()
 .setColor('#0099ff')
 .setTitle('Helper Application')
 .setURL('https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform')
-.addField('Apply here: shorturl.at/qrzC3')
-.addField('Status: OPEN')
+.addField('Apply here: shorturl.at/qrzC3', 'Status: OPEN')
 
 const PREmbed = new Discord.MessageEmbed()
 .setColor('#0099ff')
 .setTitle('PR Application')
 .setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
-.addField('Apply here: shorturl.at/rsHS2')
-.addField('Status: OPEN')
+.addField('Apply here: shorturl.at/rsHS2', 'Status: OPEN')
 
 client.on('ready', () => {
     console.log('ONLINE')

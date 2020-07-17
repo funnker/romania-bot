@@ -27,7 +27,7 @@ const HelperEmbed = new Discord.MessageEmbed()
 
 const PREmbed = new Discord.MessageEmbed()
 .setColor('#0099ff')
-.setTitle('Helper Application')
+.setTitle('PR Application')
 .setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
 .addField('Apply here: shorturl.at/rsHS2')
 .addField('Status: OPEN')

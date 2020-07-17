@@ -48,29 +48,28 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-    if(command === "tu")
-    {
-      if(message.author.id === '450300560168714243' || message.author.id === '442033755721302026')
-        message.channel.send("Tu esti")
-      else
-        message.channel.send("Nu esti tu")
-    }
-
+  if(command === "tu")
+  {
+    if(message.author.id === '450300560168714243' || message.author.id === '442033755721302026')
+      message.channel.send("Tu esti")
+    else
+      message.channel.send("Nu esti tu")
+  }
   if(command === "nebun") 
-    {
-      message.channel.send("Esti prea nebun");      
-    }
+  {
+     message.channel.send("Esti prea nebun");      
+  }
   if(command === "noi")
   {
     message.channel.send("https://www.youtube.com/watch?v=ZnO-GMw7dfI")
   }
   if(command === "helpere")
   {
-    channel.send(HelperEmbed);
+    message.channel.send(HelperEmbed);
   }
-  if(command ==="pre")
+  if(command === "pre")
   {
-    channel.send(PREmbed);
+    message.channel.send(PREmbed);
   }
 
 }) 

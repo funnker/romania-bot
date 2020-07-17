@@ -32,8 +32,6 @@ const PREmbed = new Discord.MessageEmbed()
 .addField('Apply here: shorturl.at/rsHS2')
 .addField('Status: OPEN')
 
-
-
 client.on('ready', () => {
     console.log('ONLINE')
     client.user.setActivity('RomaniaBot v1.3', { type: 'PLAYING' });

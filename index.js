@@ -18,6 +18,20 @@ for(const file of commandFiles)
 var ondutyStaff = 0;
 let DutyRole = '724607373380943936';
 
+const HelperEmbed = new Discord.MessageEmbed()
+	.setColor('10181046')
+	.setTitle('Helper Application')
+	.setURL('https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform')
+	.setDescription('Apply here: shorturl.at/qrzC3')
+  .addField('Status: OPEN', true)
+  
+const PREmbed = new Discord.MessageEmbed()
+	.setColor('3447003')
+	.setTitle('Helper Application')
+	.setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
+	.setDescription('Apply here: shorturl.at/rsHS2')
+	.addField('Status: OPEN', true)
+
 client.on('ready', () => {
     console.log('ONLINE')
     client.user.setActivity('Trei Culori', { type: 'LISTENING' });
@@ -50,13 +64,15 @@ client.on('message', message => {
   {
     message.channel.send("https://www.youtube.com/watch?v=ZnO-GMw7dfI")
   }
-  if(message.content.startsWith === "Im")
+  if(command === "helpere")
   {
-    var messages = message.content.toString;
-    const args = messages.trim().split(' ');
-    args.shift();
-    message.channel.send("Hello " + args.join(' ') + "I'm Dad");
+    channel.send(HelperEmbed);
   }
+  if(command ==="pre")
+  {
+    channel.send(PREmbed);
+  }
+
 }) 
  
  client.on('guildMemberAdd', member=>{

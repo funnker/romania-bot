@@ -32,6 +32,13 @@ const PREmbed = new Discord.MessageEmbed()
 .setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
 .addField('Apply here: https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform', 'Status: OPEN')
 
+const BuilderEmbed = new Discord.MessageEmbed()
+.setColor('#0099ff')
+.setTitle('Builder Application')
+.setThumbnail('https://i.imgur.com/VVp3czl.png')
+.setURL('https://buildtheearth.net/buildteams/89')
+.addField('Apply here: https://buildtheearth.net/buildteams/89/join', 'Status: OPEN')
+
 client.on('ready', () => {
     console.log('ONLINE')
     client.user.setActivity('RomaniaBot v1.3', { type: 'PLAYING' });
@@ -70,6 +77,10 @@ client.on('message', message => {
   if(command === "pre")
   {
     message.channel.send(PREmbed);
+  }
+  if(command === "bre")
+  {
+    message.channel.send(BuilderEmbed);
   }
 
 }) 

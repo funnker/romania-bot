@@ -14,7 +14,7 @@ for(const file of commandFiles)
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
-
+//ok boss
 var ondutyStaff = 0;
 let DutyRole = '724607373380943936';
 

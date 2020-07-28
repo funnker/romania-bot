@@ -86,9 +86,10 @@ client.on('message', message => {
 }) 
  
  client.on('guildMemberAdd', member=>{
-  let myGuild = client.guilds.cache.get('701409424446849104');
- 
- 
+    let myGuild = client.guilds.cache.get('701409424446849104');
+
+    client.channels.cache.get(`703980745190015016`).send(`Salut ${user.tag}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`);
+
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)

@@ -87,8 +87,8 @@ client.on('message', message => {
  
  client.on('guildMemberAdd', member=>{
     let myGuild = client.guilds.cache.get('701409424446849104');
-    const WelcomeChannel = member.guild.channels.cache.get(`703980745190015016`);
-    WelcomeChannel.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`);
+    const WelcomeChannel = member.guild.channels.cache.find(channel => channel.name === '🔰newcomers🔰')
+    WelcomeChannel.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`)
 
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');

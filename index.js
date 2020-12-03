@@ -3,11 +3,12 @@ const Discord = require('discord.js');
 const {prefix, token } = require('./config.json');
 const { runInNewContext } = require('vm');
 const { config } = require('process');
+const { Server } = require('http');
 const client = new Discord.Client();
 
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for(const file of commandFiles)
 {
@@ -55,21 +56,11 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if(command === "tu")
+  if(command === "welcome")
   {
-    if(message.author.id === '450300560168714243' || message.author.id === '442033755721302026')
-      message.channel.send("Tu esti")
-    else
-      message.channel.send("Nu esti tu")
+    client.commands.get('welcome').execute(message, args);
   }
-  if(command === "nebun") 
-  {
-     message.channel.send("Esti prea nebun");      
-  }
-  if(command === "noi")
-  {
-    message.channel.send("https://www.youtube.com/watch?v=ZnO-GMw7dfI")
-  }
+  
   if(command === "helpere")
   {
     message.channel.send(HelperEmbed);
@@ -82,7 +73,6 @@ client.on('message', message => {
   {
     message.channel.send(BuilderEmbed);
   }
-
 }) 
  
  client.on('guildMemberAdd', member=>{
@@ -90,6 +80,10 @@ client.on('message', message => {
     const WelcomeChannel = member.guild.channels.cache.find(channel => channel.name === '🔰newcomers🔰')
     WelcomeChannel.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`)
 
+    member.send("Bun venit pe server-ul oficial de Discord BTE Romania! \n Câteva informații importante: \n -Pentru a face parte din echipă trebuie să faci o cerere pe site-ul oficial (link-ul îl vei găsii mai jos și pe canalul #📄applications📄). Construcțiile trebuie să fie replici la scara 1:1 la clădiri din viața reală! \n -În canalul #🎋downloads🎋 găsiți installer-ul oficial BTE, care va crea o versiune care va conține modpack-ul și o hartă BTE pe care va trebui să construiți clădirile pentru **cererea de builder**! \n Pentru întrebări folosiți canalul #suport de pe server! ")
+    member.send("Welcome to the official BTE Romania Discord Server! \n  Here are some important Informations for you: \n -If you want to be part of the team you have to apply on the official BTE website (click the link below or find it on the #📄applications📄 channel). The application must contain 1:1 scale buildings that exist in real life! \n -You can find the modpack installer in the #🎋downloads🎋. It will create a premade version of Minecraft in your launcher that will have a premade world where you can start building for the **builder application**! \n If you have any questions please aks them on the #support channel on our server!")
+    member.send("BTE official website: https://buildtheearth.net/buildteams/89")
+    
     let memberCount =  myGuild.memberCount;
     let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
     MemberCountChannel.setName('Members: ' + memberCount)
@@ -128,134 +122,73 @@ client.on('presenceUpdate', (oldMember, newMember) => {
   StaffCountChannel.setName('Active Staff: ' + onlineCount)
 })
 
-client.on('messageReactionAdd', async (reaction, user) => {
-  if(user.bot)
+        //LOGS
+
+client.on('messageUpdate', async(oldMessage, newMessage) => {
+  if(oldMessage.content === newMessage.content)
     return;
-  if(message.channels.id !== '703980745190015016')
+  
+  let LogEmbed = new Discord.MessageEmbed()
+  .setAuthor(oldMessage.author.tag, oldMessage.author.avatar)
+  .setThumbnail(oldMessage.author.avatar)
+  .setColor("#992ad1")
+  .setDescription("Un mesaj a fost editat!")
+  .addField("Inainte", oldMessage.content, true)
+  .addField("Dupa", newMessage.content, true)
+  .setTimestamp()
+
+  let loggingChannel = newMessage.guild.channels.cache.find(ch => ch.name === "logs")
+  if(!loggingChannel)
     return;
-  switch(reaction.id)
-  {
-    case "728250528559267922":
-      member.addRole("728255332719263825");
-    case "728250528559267922":
-      member.addRole("728255307431804938");
-  }
-});
-/*
-client.on('messageReactionRemove', async (reaction, user) => {
-  if(user.bot)
+
+  loggingChannel.send(LogEmbed);
+
+})
+
+client.on('messageDelete', async message => {
+  let LogEmbed = new Discord.MessageEmbed()
+  .setTitle("Un mesaj a fost sters!")
+  .setColor("#992ad1")
+  .setThumbnail(message.author.avatarURL())
+  .addField("Sters de: " + message.author.tag)
+  .addField("Sters in: " + message.channel)
+  .setTimestamp()
+
+  let loggingChannel = message.guild.channels.cache.find(ch => ch.name === "logs")
+  if(!loggingChannel)
     return;
-  if(message.channels.id !== '724675482779385988')
+  
+  loggingChannel.send(LogEmbed);
+
+})
+
+client.on('channelCreate', async(channel) => {
+  let LogEmbed = new Discord.MessageEmbed()
+  .setTitle("Un channel a fost creat!")
+  .setColor("#32a852")
+  .setDescription("Nume: " + channel.name + "\n" + "Tip: " + channel.type)
+  .setTimestamp()
+
+  let loggingChannel = channel.guild.channels.cache.find(ch => ch.name === "logs")
+  if(!loggingChannel)
     return;
-    switch(reaction.id)
-    {
-      case "728250528559267922":
-        member.removeRole("728255332719263825");
-      case "728250528559267922":
-        member.removeRole("728255307431804938");
-    }  
-}) */
 
-        //LOGS STUFF
+  loggingChannel.send(LogEmbed);
+})
 
-        client.on('messageDelete', async message => {
-          // ignore direct messages
-          if (!message.guild) return;
-          const fetchedLogs = await message.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'MESSAGE_DELETE',
-          });
-          // Since we only have 1 audit log entry in this collection, we can simply grab the first one
-          const deletionLog = fetchedLogs.entries.first();
-        
-          // Let's perform a sanity check here and make sure we got *something*
-          if (!deletionLog) return console.log(`Un mesaj al user-ului ${message.author.tag} a fost sters insa nu am gasit log-ul potrivit.`);
-        
-          // We now grab the user object of the person who deleted the message
-          // Let us also grab the target of this action to double check things
-          const { executor, target } = deletionLog;
-        
-        
-          // And now we can update our output with a bit more information
-          // We will also run a check to make sure the log we got was for the same author's message
-          if (target.id === message.author.id) {
-            client.channels.cache.get(`729442853238866010`).send(`Un mesaj al user-ului ${message.author.tag} a fost sters de ${executor.tag}.`);
-          }	else {
-            client.channels.cache.get(`729442853238866010`).send(`Un mesaj al user-ului ${message.author.tag} a fost sters insa nu stiu de cine.`);
-          }
-        });
+client.on('channelDelete', async(channel) => {
+  let LogEmbed = new Discord.MessageEmbed()
+  .setTitle("Un channel a fost sters!")
+  .setColor("#32a852")
+  .setDescription("Nume: " + channel.name + "\n" + "Tip: " + channel.type)
+  .setTimestamp()
 
-        client.on('guildMemberRemove', async member => {
-          const fetchedLogs = await member.guild.fetchAuditLogs({
-            limit: 1,
-            type: 'MEMBER_KICK',
-          });
-          // Since we only have 1 audit log entry in this collection, we can simply grab the first one
-          const kickLog = fetchedLogs.entries.first();
-        
-          // Let's perform a sanity check here and make sure we got *something*
-          if (!kickLog) return console.log(`${member.user.tag} a iesit din de pe server.`);
-        
-          // We now grab the user object of the person who kicked our member
-          // Let us also grab the target of this action to double check things
-          const { executor, target } = kickLog;
-        
-          // And now we can update our output with a bit more information
-          // We will also run a check to make sure the log we got was for the same kicked member
-          if (target.id === member.id) {
-            client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a primit kick de la ${executor.tag}?`);
-          } else {
-            client.channels.cache.get(`729442853238866010`).send(`${member.user.tag} a iesit de pe server.`);
-          }
-        });
+  let loggingChannel = channel.guild.channels.cache.find(ch => ch.name === "logs")
+  if(!loggingChannel)
+    return;
 
-        client.on('guildBanAdd', async (guild, user) => {
-          const fetchedLogs = await guild.fetchAuditLogs({
-            limit: 1,
-            type: 'MEMBER_BAN_ADD',
-          });
-          // Since we only have 1 audit log entry in this collection, we can simply grab the first one
-          const banLog = fetchedLogs.entries.first();
-        
-          // Let's perform a sanity check here and make sure we got *something*
-          if (!banLog) return console.log(`${user.tag} a fost banat, dar nu au fost gasite log-urile.`);
-        
-          // We now grab the user object of the person who banned the user
-          // Let us also grab the target of this action to double check things
-          const { executor, target } = banLog;
-        
-          // And now we can update our output with a bit more information
-          // We will also run a check to make sure the log we got was for the same kicked member
-          if (target.id === user.id) {
-            client.channels.cache.get(`729442853238866010`).send(`${user.tag} a primit ban de la ${executor.tag}.`);
-          } else {
-            client.channels.cache.get(`729442853238866010`).send(`${user.tag} a primit ban.`);
-          }
-        });
-
-        client.on('inviteCreate', async invite => {
-          const fetchedLogs = await guild.fetchAuditLogs({
-            limit: 1,
-            type: 'INVITE_CREATE',
-          });
-          const inviteLog = fetchedLogs.entries.first();
-
-          if(!inviteLog) return console.log(`${user.tag} a creat un invite link.`);
-        })
-
-        client.on('roleCreate', async role => {
-          const fetchedLogs = await guild.fetchAuditLogs({
-            limit: 1,
-            type: 'ROLE_CREATE',
-          });
-
-          const roleLog = fetchedLogs.entries.first();
-
-          if(!roleLog) return console.log(`${user.tag} a creat un rol.`);
-
-          const { executor, target } = roleLog;
-
-        })
+  loggingChannel.send(LogEmbed);
+})
 
 client.login(token);
 

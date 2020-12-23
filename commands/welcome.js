@@ -1,7 +1,7 @@
 module.exports = {
     name: 'welcome',
-    description: "Welcome Message",
+    description: "Set Welcome Message Channel",
     execute(message, args){
-        message.channel.send('Salut!');
+        message.channel.send('Great Success!');
     }
 }

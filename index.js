@@ -5,6 +5,7 @@ const { runInNewContext } = require('vm');
 const { config } = require('process');
 const { Server } = require('http');
 const client = new Discord.Client();
+var db = require('quick.db');
 
 client.commands = new Discord.Collection();
 
@@ -15,40 +16,20 @@ for(const file of commandFiles)
   const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
-//ok boss
-var ondutyStaff = 0;
-let DutyRole = '724607373380943936';
-
-const HelperEmbed = new Discord.MessageEmbed()
-.setColor('#0099ff')
-.setTitle('Helper Application')
-.setThumbnail('https://i.imgur.com/VVp3czl.png')
-.setURL('https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform')
-.addField('Apply here: https://docs.google.com/forms/d/e/1FAIpQLSfM7Nv2jOoUwk5EmStQao4zMDUN-5kjQeNG-_v-bN4JxJvrbA/viewform', 'Status: OPEN')
-
-const PREmbed = new Discord.MessageEmbed()
-.setColor('#0099ff')
-.setTitle('PR Application')
-.setThumbnail('https://i.imgur.com/VVp3czl.png')
-.setURL('https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform')
-.addField('Apply here: https://docs.google.com/forms/d/e/1FAIpQLSfKTwbwzvUrkl0vGTFo_hmhj9shBX3QqnGccLfKbrwzOqpYrQ/viewform', 'Status: OPEN')
-
-const BuilderEmbed = new Discord.MessageEmbed()
-.setColor('#0099ff')
-.setTitle('Builder Application')
-.setThumbnail('https://i.imgur.com/VVp3czl.png')
-.setURL('https://buildtheearth.net/buildteams/89')
-.addField('Apply here: https://buildtheearth.net/buildteams/89/join', 'Status: OPEN')
 
 client.on('ready', () => {
-    console.log('ONLINE')
+    console.log('THE BOT IS ONLINE')
     client.user.setActivity('RomaniaBot v1.3', { type: 'PLAYING' });
-
-    let myGuild = client.guilds.cache.get('701409424446849104');
-    let memberCount =  myGuild.memberCount;
-    let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
-    MemberCountChannel.setName('Members: ' + memberCount)
 })
+
+//CHANNELS
+let welcomeChannel = client.channels.cache.find(c => c.name === "test");
+
+/*
+#########################
+COMMANDS
+#########################
+*/
 
 client.on('message', message => {
   if(!message.content.startsWith(prefix) || message.author.bot) return;
@@ -56,9 +37,15 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if(command === "welcome")
+  if(command === "welcome") //Set welcome message channel
   {
+    WelcomeChannel = message.channel.name;
     client.commands.get('welcome').execute(message, args);
+  }
+
+  if(command === "logs")
+  {
+    client.commands.get('logs').execute(message, args);
   }
   
   if(command === "helpere")
@@ -73,122 +60,271 @@ client.on('message', message => {
   {
     message.channel.send(BuilderEmbed);
   }
+
+  if(command === "ok")
+  {
+    message.channel.send("OK");
+  }
+
+  if(command === "setlogs")
+  {
+    client.commands.get('setlogs').execute(client, message, args);
+  }
 }) 
  
- client.on('guildMemberAdd', member=>{
-    let myGuild = client.guilds.cache.get('701409424446849104');
-    const WelcomeChannel = member.guild.channels.cache.find(channel => channel.name === '🔰newcomers🔰')
-    WelcomeChannel.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`)
+client.on('guildMemberAdd', member=>{
+  welcomeChannel.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`)
 
-    member.send("Bun venit pe server-ul oficial de Discord BTE Romania! \n Câteva informații importante: \n -Pentru a face parte din echipă trebuie să faci o cerere pe site-ul oficial (link-ul îl vei găsii mai jos și pe canalul #📄applications📄). Construcțiile trebuie să fie replici la scara 1:1 la clădiri din viața reală! \n -În canalul #🎋downloads🎋 găsiți installer-ul oficial BTE, care va crea o versiune care va conține modpack-ul și o hartă BTE pe care va trebui să construiți clădirile pentru **cererea de builder**! \n Pentru întrebări folosiți canalul #suport de pe server! ")
-    member.send("Welcome to the official BTE Romania Discord Server! \n  Here are some important Informations for you: \n -If you want to be part of the team you have to apply on the official BTE website (click the link below or find it on the #📄applications📄 channel). The application must contain 1:1 scale buildings that exist in real life! \n -You can find the modpack installer in the #🎋downloads🎋. It will create a premade version of Minecraft in your launcher that will have a premade world where you can start building for the **builder application**! \n If you have any questions please aks them on the #support channel on our server!")
-    member.send("BTE official website: https://buildtheearth.net/buildteams/89")
-    
-    let memberCount =  myGuild.memberCount;
-    let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
-    MemberCountChannel.setName('Members: ' + memberCount)
- }) 
- 
- client.on('guildMemberRemove', member =>{
-  let myGuild = client.guilds.cache.get('701409424446849104');
-    let memberCount =  myGuild.memberCount;
-    let MemberCountChannel = myGuild.channels.cache.get('723181902583955510');
-    MemberCountChannel.setName('Members: ' + memberCount)
- })
+  member.send("Bun venit pe server-ul oficial de Discord BTE Romania! \n Câteva informații importante: \n -Pentru a face parte din echipă trebuie să faci o cerere pe site-ul oficial (link-ul îl vei găsii mai jos și pe canalul #📄applications📄). Construcțiile trebuie să fie replici la scara 1:1 la clădiri din viața reală! \n -În canalul #🎋downloads🎋 găsiți installer-ul oficial BTE, care va crea o versiune care va conține modpack-ul și o hartă BTE pe care va trebui să construiți clădirile pentru **cererea de builder**! \n Pentru întrebări folosiți canalul #suport de pe server! ")
+  member.send("Welcome to the official BTE Romania Discord Server! \n  Here are some important Informations for you: \n -If you want to be part of the team you have to apply on the official BTE website (click the link below or find it on the #📄applications📄 channel). The application must contain 1:1 scale buildings that exist in real life! \n -You can find the modpack installer in the #🎋downloads🎋. It will create a premade version of Minecraft in your launcher that will have a premade world where you can start building for the **builder application**! \n If you have any questions please aks them on the #support channel on our server!")    
+  member.send("BTE official website: https://buildtheearth.net/buildteams/89")
+}) 
 
+/*
+#########################
+LOGGING
+#########################
+*/
 
- client.on('ready', () => {
-
-   let myGuild = client.guilds.cache.get('701409424446849104');
-   let roleID = '719306842630520912';
-   const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
-   let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
-   StaffCountChannel.setName('Active Staff: ' + onlineCount)
- })
-
- client.on('guildMemberUpdate', (oldMember, newMember) => {
-  let myGuild = client.guilds.cache.get('701409424446849104');
-  let roleID = '719306842630520912';
-  const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
-  let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
-  StaffCountChannel.setName('Active Staff: ' + onlineCount)
-})
-
-client.on('presenceUpdate', (oldMember, newMember) => {
-  let myGuild = client.guilds.cache.get('701409424446849104');
-  let roleID = '719306842630520912';
-  const onlineCount = myGuild.members.cache.filter(m => m.roles.cache.has(roleID) && m.presence.status === 'online').size;
-  let StaffCountChannel = myGuild.channels.cache.get('723269866077028483');
-  StaffCountChannel.setName('Active Staff: ' + onlineCount)
-})
-
-        //LOGS
-
-client.on('messageUpdate', async(oldMessage, newMessage) => {
-  if(oldMessage.content === newMessage.content)
-    return;
-  
-  let LogEmbed = new Discord.MessageEmbed()
-  .setAuthor(oldMessage.author.tag, oldMessage.author.avatar)
-  .setThumbnail(oldMessage.author.avatar)
-  .setColor("#992ad1")
-  .setDescription("Un mesaj a fost editat!")
-  .addField("Inainte", oldMessage.content, true)
-  .addField("Dupa", newMessage.content, true)
-  .setTimestamp()
-
-  let loggingChannel = newMessage.guild.channels.cache.find(ch => ch.name === "logs")
-  if(!loggingChannel)
+client.on('messageDelete', message => { //DONE
+  if(message.author.bot)
     return;
 
-  loggingChannel.send(LogEmbed);
+  let x = db.get(`loggingchannel_${message.guild.id}`);
 
-})
+  if(x == null)
+    return;
+  x = message.guild.channels.cache.get(x)
 
-client.on('messageDelete', async message => {
-  let LogEmbed = new Discord.MessageEmbed()
-  .setTitle("Un mesaj a fost sters!")
-  .setColor("#992ad1")
+  var embed = new Discord.MessageEmbed()
+  .setColor('0x00ffff') //AQUA
   .setThumbnail(message.author.avatarURL())
-  .addField("Sters de: " + message.author.tag)
-  .addField("Sters in: " + message.channel)
+  .setAuthor(message.author.tag)
+  .setDescription('Message Deleted')
+  .addField('Message', message.content)
+  .addField('Channel', message.channel)
+  .setFooter('User ID: ' + message.author.id)
   .setTimestamp()
 
-  let loggingChannel = message.guild.channels.cache.find(ch => ch.name === "logs")
-  if(!loggingChannel)
-    return;
-  
-  loggingChannel.send(LogEmbed);
-
+  //let loggingChannel = message.guild.channels.cache.find(ch => ch.name === "test")
+  x.send(embed)
 })
 
-client.on('channelCreate', async(channel) => {
-  let LogEmbed = new Discord.MessageEmbed()
-  .setTitle("Un channel a fost creat!")
-  .setColor("#32a852")
-  .setDescription("Nume: " + channel.name + "\n" + "Tip: " + channel.type)
-  .setTimestamp()
-
-  let loggingChannel = channel.guild.channels.cache.find(ch => ch.name === "logs")
-  if(!loggingChannel)
+client.on('messageUpdate', (oldMessage, newMessage) => { //DONE
+  if(oldMessage.content == newMessage.content)
     return;
 
-  loggingChannel.send(LogEmbed);
+  if(oldMessage.author.bot)
+    return;
+
+  let x = db.get(`loggingchannel_${oldMessage.guild.id}`);
+
+  if(x == null)
+    return;
+  x = oldMessage.guild.channels.cache.get(x)
+    
+  var embed = new Discord.MessageEmbed()
+  .setColor('0x00ffff') //AQUA
+  .setThumbnail(oldMessage.author.avatarURL())
+  .setAuthor(oldMessage.author.tag)
+  .setDescription('Message Edited')
+  .addField('Old Message', oldMessage.content)
+  .addField('New Message', newMessage.content)
+  .addField('Channel', oldMessage.channel)
+  .setFooter('User ID: ' + oldMessage.author.id)
+  .setTimestamp()
+
+  x.send(embed)
 })
 
-client.on('channelDelete', async(channel) => {
-  let LogEmbed = new Discord.MessageEmbed()
-  .setTitle("Un channel a fost sters!")
-  .setColor("#32a852")
-  .setDescription("Nume: " + channel.name + "\n" + "Tip: " + channel.type)
+client.on('channelCreate', channel => {
+  let x = db.get(`loggingchannel_${channel.guild.id}`);
+
+  if(x == null)
+    return;
+  x = channel.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0x00ff00') //GREEN
+  .setAuthor('Channel Created')
+  .addField('Channel Name', channel.name)
+  .setFooter('Channel ID: ' + channel.id)
   .setTimestamp()
 
-  let loggingChannel = channel.guild.channels.cache.find(ch => ch.name === "logs")
-  if(!loggingChannel)
-    return;
+  x.send(embed)
+})
 
-  loggingChannel.send(LogEmbed);
+client.on('channelDelete', channel => {
+  let x = db.get(`loggingchannel_${channel.guild.id}`);
+
+  if(x == null)
+    return;
+  x = channel.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0x00ff00') //GREEN
+  .setAuthor('Channel Deleted')
+  .addField('Channel Name', channel.name)
+  .setFooter('Channel ID: ' + channel.id)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('channelUpdate', (oldChannel, newChannel) => {
+  let x = db.get(`loggingchannel_${oldChannel.guild.id}`);
+
+  if(x == null)
+    return;
+  x = oldChannel.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0x00ff00') //GREEN
+  .setAuthor('Channel Edited')
+  .addField('Old Channel:', oldChannel.name)
+  .addField('New Channel:', newChannel.name)
+  .setFooter('Channel ID: ' + oldChannel.id)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('emojiCreate', emoji => {
+  let x = db.get(`loggingchannel_${emoji.guild.id}`);
+
+  if(x == null)
+    return;
+  x = emoji.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0xbf00ff') //PURPLE
+  .setAuthor('Emoji Created')
+  .setDescription(emoji.guild.iconURL())
+  .addField('Emote Name', emoji.name)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('emojiUpdate', (oldEmoji, newEmoji) => {
+  let x = db.get(`loggingchannel_${oldEmoji.guild.id}`);
+
+  if(x == null)
+    return;
+  x = oldEmoji.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0xbf00ff') //PURPLE
+  .setAuthor('Emoji Edited')
+  .setDescription(oldEmoji.guild.icon)
+  .addField('Emote Old Name', oldEmoji.name)
+  .addField('Emote New Name', newEmoji.name)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('emojiDelete', emoji => {
+  let x = db.get(`loggingchannel_${emoji.guild.id}`);
+
+  if(x == null)
+    return;
+  x = emoji.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0xbf00ff') //PURPLE
+  .setAuthor('Emoji Deleted')
+  .setDescription(emoji.guild.icon)
+  .addField('Emote Name', emoji.name)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('guildBanAdd', (guild, user) => {
+  let x = db.get(`loggingchannel_${user.guild.id}`);
+
+  if(x == null)
+    return;
+  x = user.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0xcc0000') //DARK RED
+  .setAuthor(user.tag + 'has been banned from this server')
+  .setFooter('User ID:', user.id)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('guildBanRemove', (guild, user) => {
+  let x = db.get(`loggingchannel_${user.guild.id}`);
+
+  if(x == null)
+    return;
+  x = user.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor('0xcc0000') //DARK RED
+  .setAuthor(user.tag + 'has been unbanned')
+  .setFooter('User ID:', user.id)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('roleCreate', role => {
+  let x = db.get(`loggingchannel_${role.guild.id}`);
+
+  if(x == null)
+    return;
+  x = role.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor(0x0000ff) //BLUE
+  .setAuthor('Role Created')
+  .setField('Role Name:', role.name)
+  .setFooter('Role ID:', role.id)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('roleDelete', role => {
+  let x = db.get(`loggingchannel_${role.guild.id}`);
+
+  if(x == null)
+    return;
+  x = role.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor(0x0000ff) //BLUE
+  .setAuthor('Role Deleted')
+  .setField('Role Name:', role.name)
+  .setFooter('Role ID:', role.id)
+  .setTimestamp()
+
+  x.send(embed)
+})
+
+client.on('roleUpdate', (oldRole, newRole) => {
+  let x = db.get(`loggingchannel_${oldRole.guild.id}`);
+
+  if(x == null)
+    return;
+  x = oldRole.guild.channels.cache.get(x)
+
+  var embed = new Discord.MessageEmbed()
+  .setColor(0x0000ff) //BLUE
+  .setAuthor('Role Edited')
+  .setField('Old Name:', oldRole.name)
+  .setField('New Name:', newRole.name)
+  setFooter('Role ID:', role.id)
+  .setTimestamp()
+
+  x.send(embed)
 })
 
 client.login(token);
+
 

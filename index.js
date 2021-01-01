@@ -37,15 +37,9 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if(command === "welcome") //Set welcome message channel
+  if(command === "setwelcome") //Set welcome message channel
   {
-    WelcomeChannel = message.channel.name;
-    client.commands.get('welcome').execute(message, args);
-  }
-
-  if(command === "logs")
-  {
-    client.commands.get('logs').execute(message, args);
+    client.commands.get('setwelcome').execute(client, message, args);
   }
   
   if(command === "helpere")
@@ -70,10 +64,20 @@ client.on('message', message => {
   {
     client.commands.get('setlogs').execute(client, message, args);
   }
+
+  if(command === "members")
+  {
+    client.commands.get('stats').execute(client, message, args);
+  }
 }) 
  
 client.on('guildMemberAdd', member=>{
-  welcomeChannel.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`)
+  let x = db.get(`welcomechannel_${member.guild.id}`);
+  if(x == null)
+    return;
+  x = member.guild.channels.cache.get(x)
+
+  x.send(`Salut ${member}, bine ai venit pe serverul **BTE Romania + Moldova [Official]**!`)
 
   member.send("Bun venit pe server-ul oficial de Discord BTE Romania! \n Câteva informații importante: \n -Pentru a face parte din echipă trebuie să faci o cerere pe site-ul oficial (link-ul îl vei găsii mai jos și pe canalul #📄applications📄). Construcțiile trebuie să fie replici la scara 1:1 la clădiri din viața reală! \n -În canalul #🎋downloads🎋 găsiți installer-ul oficial BTE, care va crea o versiune care va conține modpack-ul și o hartă BTE pe care va trebui să construiți clădirile pentru **cererea de builder**! \n Pentru întrebări folosiți canalul #suport de pe server! ")
   member.send("Welcome to the official BTE Romania Discord Server! \n  Here are some important Informations for you: \n -If you want to be part of the team you have to apply on the official BTE website (click the link below or find it on the #📄applications📄 channel). The application must contain 1:1 scale buildings that exist in real life! \n -You can find the modpack installer in the #🎋downloads🎋. It will create a premade version of Minecraft in your launcher that will have a premade world where you can start building for the **builder application**! \n If you have any questions please aks them on the #support channel on our server!")    
@@ -283,7 +287,7 @@ client.on('roleCreate', role => {
   var embed = new Discord.MessageEmbed()
   .setColor(0x0000ff) //BLUE
   .setAuthor('Role Created')
-  .setField('Role Name:', role.name)
+  .setField('Role Name:', role.name())
   .setFooter('Role ID:', role.id)
   .setTimestamp()
 

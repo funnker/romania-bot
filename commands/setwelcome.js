@@ -2,9 +2,9 @@ const Discord = require("discord.js")
 const db = require("quick.db")
 
 module.exports = {
-    name: 'setlogs',
-    description: "Set Logs Channel",
-    usage: "setlogs <#channel>",
+    name: 'setwelcome',
+    description: "Set Welcome Message Channel",
+    usage: "setwelcome <#channel>",
     execute(client, message, args){
         let channel = message.mentions.channels.first()
 
@@ -18,8 +18,8 @@ module.exports = {
             return message.channel.send("You do not have the permission to use this command")
         }
 
-        db.set(`loggingchannel_${message.guild.id}`, channel.id)
+        db.set(`welcomechannel_${message.guild.id}`, channel.id)
 
-        message.channel.send(`Logging Channel is setted as ${channel}`)
+        message.channel.send(`Welcome Channel is setted as ${channel}`)
     }
 }

@@ -269,9 +269,9 @@ client.on('roleCreate', role => {
   x = role.guild.channels.cache.get(x)
 
   var embed = new Discord.MessageEmbed()
-  .setColor(0x0000ff) //BLUE
+  .setColor('0x0000ff') //BLUE
   .setAuthor('Role Created')
-  .setField('Role Name:', role.name())
+  .addField('Role Name:', role.name)
   .setFooter('Role ID:', role.id)
   .setTimestamp()
 
@@ -286,9 +286,9 @@ client.on('roleDelete', role => {
   x = role.guild.channels.cache.get(x)
 
   var embed = new Discord.MessageEmbed()
-  .setColor(0x0000ff) //BLUE
+  .setColor('0x0000ff') //BLUE
   .setAuthor('Role Deleted')
-  .setField('Role Name:', role.name)
+  .addField('Role Name:', role.name)
   .setFooter('Role ID:', role.id)
   .setTimestamp()
 
@@ -303,11 +303,11 @@ client.on('roleUpdate', (oldRole, newRole) => {
   x = oldRole.guild.channels.cache.get(x)
 
   var embed = new Discord.MessageEmbed()
-  .setColor(0x0000ff) //BLUE
+  .setColor('0x0000ff') //BLUE
   .setAuthor('Role Edited')
-  .setField('Old Name:', oldRole.name)
-  .setField('New Name:', newRole.name)
-  setFooter('Role ID:', role.id)
+  .addField('Old Name:', oldRole.name)
+  .addField('New Name:', newRole.name)
+  .setFooter('Role ID:', role.id)
   .setTimestamp()
 
   x.send(embed)

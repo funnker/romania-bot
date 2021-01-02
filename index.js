@@ -22,9 +22,6 @@ client.on('ready', () => {
     client.user.setActivity('RomaniaBot v1.3', { type: 'PLAYING' });
 })
 
-//CHANNELS
-let welcomeChannel = client.channels.cache.find(c => c.name === "test");
-
 /*
 #########################
 COMMANDS
@@ -41,24 +38,6 @@ client.on('message', message => {
   {
     client.commands.get('setwelcome').execute(client, message, args);
   }
-  
-  if(command === "helpere")
-  {
-    message.channel.send(HelperEmbed);
-  }
-  if(command === "pre")
-  {
-    message.channel.send(PREmbed);
-  }
-  if(command === "bre")
-  {
-    message.channel.send(BuilderEmbed);
-  }
-
-  if(command === "ok")
-  {
-    message.channel.send("OK");
-  }
 
   if(command === "setlogs")
   {
@@ -68,6 +47,11 @@ client.on('message', message => {
   if(command === "members")
   {
     client.commands.get('stats').execute(client, message, args);
+  }
+
+  if(command === "ip")
+  {
+    client.commands.get('ip').execute(client, message, args);
   }
 }) 
  
